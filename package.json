@@ -12,7 +12,6 @@
   ],
   "scripts": {
     "build": "tsc",
-    "prepare": "npm run build",
     "mcp": "tsx src/index.ts",
     "setup": "tsx src/setup.ts",
     "smoke": "tsx scripts/smoke.ts",
