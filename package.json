@@ -1,0 +1,35 @@
+{
+  "name": "whatsapp-mcp",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "whatsapp-mcp": "./dist/index.js",
+    "whatsapp-mcp-setup": "./dist/setup.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "mcp": "tsx src/index.ts",
+    "setup": "tsx src/setup.ts",
+    "smoke": "tsx scripts/smoke.ts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "@whiskeysockets/baileys": "^6.7.0",
+    "qrcode-terminal": "^0.12.0",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.0",
+    "@types/qrcode-terminal": "^0.12.2",
+    "tsx": "^4.7.0",
+    "typescript": "^5.4.0",
+    "vitest": "^1.5.0"
+  }
+}
