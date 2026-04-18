@@ -5,6 +5,7 @@ import makeWASocket, { useMultiFileAuthState, } from "@whiskeysockets/baileys";
 import { join } from "node:path";
 import { saveConfig } from "./config.js";
 import { resolveHome } from "./paths.js";
+import { silentLogger } from "./whatsapp/silent-logger.js";
 const ROOT = resolveHome();
 async function connectAndReady() {
     const authDir = join(ROOT, "data", "auth");
@@ -12,7 +13,7 @@ async function connectAndReady() {
     const sock = makeWASocket({
         auth: state,
         printQRInTerminal: false,
-        logger: { level: "silent" },
+        logger: silentLogger(),
     });
     sock.ev.on("creds.update", saveCreds);
     await new Promise((resolve, reject) => {

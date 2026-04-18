@@ -8,6 +8,7 @@ import makeWASocket, {
 import { join } from "node:path";
 import { saveConfig } from "./config.js";
 import { resolveHome } from "./paths.js";
+import { silentLogger } from "./whatsapp/silent-logger.js";
 
 const ROOT = resolveHome();
 
@@ -23,7 +24,7 @@ async function connectAndReady(): Promise<WASocket> {
   const sock = makeWASocket({
     auth: state,
     printQRInTerminal: false,
-    logger: { level: "silent" } as any,
+    logger: silentLogger(),
   });
   sock.ev.on("creds.update", saveCreds);
 
