@@ -3,8 +3,9 @@ import { loadConfig } from "../src/config.js";
 import { BaileysClient } from "../src/whatsapp/baileys-client.js";
 import { createSendStatus } from "../src/mcp/tools/send-status.js";
 import { createAskQuestion } from "../src/mcp/tools/ask-question.js";
+import { resolveHome } from "../src/paths.js";
 
-const ROOT = process.cwd();
+const ROOT = resolveHome();
 
 async function main() {
   const config = loadConfig(ROOT);

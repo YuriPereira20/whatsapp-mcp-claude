@@ -7,8 +7,9 @@ import makeWASocket, {
 } from "@whiskeysockets/baileys";
 import { join } from "node:path";
 import { saveConfig } from "./config.js";
+import { resolveHome } from "./paths.js";
 
-const ROOT = process.cwd();
+const ROOT = resolveHome();
 
 interface GroupInfo {
   id: string;
@@ -96,7 +97,7 @@ async function main(): Promise<void> {
     createdAt: new Date().toISOString(),
   });
 
-  console.log(`\n✅ Salvo em ./data/config.json`);
+  console.log(`\n✅ Salvo em ${ROOT}/data/config.json`);
   console.log(`   Grupo: ${chosen.subject} (${chosen.id})`);
   console.log(`   Bot JID: ${normalizedBotJid}\n`);
   console.log("Feche esse setup com Ctrl+C. Pronto pra usar como MCP.");

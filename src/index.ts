@@ -4,8 +4,9 @@ import { loadConfig, ConfigError } from "./config.js";
 import { acquireLock, releaseLock, LockError } from "./lock.js";
 import { BaileysClient } from "./whatsapp/baileys-client.js";
 import { buildMcpServer } from "./mcp/server.js";
+import { resolveHome } from "./paths.js";
 
-const ROOT = process.cwd();
+const ROOT = resolveHome();
 
 async function main(): Promise<void> {
   let config;

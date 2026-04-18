@@ -1,14 +1,18 @@
 {
-  "name": "whatsapp-mcp",
+  "name": "whatsapp-mcp-claude",
   "version": "0.1.0",
-  "private": true,
   "type": "module",
   "bin": {
     "whatsapp-mcp": "./dist/index.js",
     "whatsapp-mcp-setup": "./dist/setup.js"
   },
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "scripts": {
     "build": "tsc",
+    "prepare": "npm run build",
     "mcp": "tsx src/index.ts",
     "setup": "tsx src/setup.ts",
     "smoke": "tsx scripts/smoke.ts",

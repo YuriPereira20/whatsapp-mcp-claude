@@ -20,19 +20,20 @@ Este projeto usa [Baileys](https://github.com/WhiskeySockets/Baileys), bibliotec
 ## Setup
 
 ```bash
-# 1. Instalar
-npm install
-npm run build
+# 1. Instalar global (puxa do GitHub, compila via 'prepare')
+npm install -g github:yuripsoares/whatsapp-mcp-claude
 
 # 2. Rodar o wizard (uma vez)
-npm run setup
+whatsapp-mcp-setup
 # → mostra QR no terminal
 # → escaneia com o WhatsApp do chip dedicado
 # → lista seus grupos
 # → digita o número do grupo alvo
-# → salva sessão em ./data/auth e config em ./data/config.json
+# → salva sessão e config em ~/.whatsapp-mcp/data/
 # → fecha com Ctrl+C
 ```
+
+Estado (sessão + config) fica em `~/.whatsapp-mcp/` por padrão. Pra usar outra localização, setar a env var `WHATSAPP_MCP_HOME=/outro/lugar` antes de rodar setup/server.
 
 ## Configurar no Claude Code
 
@@ -42,23 +43,34 @@ Adicione em `~/.claude/settings.json` (global) ou `.mcp.json` do projeto:
 {
   "mcpServers": {
     "whatsapp": {
-      "command": "node",
-      "args": ["<CAMINHO-ABSOLUTO>/dist/index.js"],
-      "cwd": "<CAMINHO-ABSOLUTO>"
+      "command": "whatsapp-mcp"
     }
   }
 }
 ```
 
-Ou, pra rodar direto do TS sem build:
+Sem cwd, sem caminho absoluto — o binário fica no PATH depois do `npm install -g`.
+
+## Instalação alternativa (dev local do repo)
+
+Se quiser rodar direto da source (sem global install):
+
+```bash
+git clone https://github.com/yuripsoares/whatsapp-mcp-claude.git
+cd whatsapp-mcp-claude
+npm install
+npm run build
+npm run setup     # wizard com state em ~/.whatsapp-mcp/
+```
+
+No Claude Code:
 
 ```json
 {
   "mcpServers": {
     "whatsapp": {
-      "command": "npx",
-      "args": ["tsx", "src/index.ts"],
-      "cwd": "<CAMINHO-ABSOLUTO>"
+      "command": "node",
+      "args": ["<CAMINHO-ABSOLUTO>/dist/index.js"]
     }
   }
 }
@@ -99,6 +111,6 @@ npm run typecheck   # checa TS
 
 ## Troubleshooting
 
-- **"Config não encontrado"** → rode `npm run setup`.
-- **"Sessão WhatsApp expirou"** → apague `./data/auth/` e rode setup de novo.
-- **"Outra sessão rodando"** → lockfile `./data/.lock` diz qual PID. Mate o processo ou apague o lockfile se for zumbi.
+- **"Config não encontrado"** → rode `whatsapp-mcp-setup` (ou `npm run setup` se for install local).
+- **"Sessão WhatsApp expirou"** → apague `~/.whatsapp-mcp/data/auth/` e rode setup de novo.
+- **"Outra sessão rodando"** → lockfile em `~/.whatsapp-mcp/data/.lock` diz qual PID. Mate o processo ou apague o lockfile se for zumbi.
