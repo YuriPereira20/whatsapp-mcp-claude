@@ -21,7 +21,7 @@ Este projeto usa [Baileys](https://github.com/WhiskeySockets/Baileys), bibliotec
 
 ```bash
 # 1. Instalar global (puxa do GitHub, compila via 'prepare')
-npm install -g github:yuripsoares/whatsapp-mcp-claude
+npm install -g github:YuriPereira20/whatsapp-mcp-claude
 
 # 2. Rodar o wizard (uma vez)
 whatsapp-mcp-setup
@@ -56,7 +56,7 @@ Sem cwd, sem caminho absoluto — o binário fica no PATH depois do `npm install
 Se quiser rodar direto da source (sem global install):
 
 ```bash
-git clone https://github.com/yuripsoares/whatsapp-mcp-claude.git
+git clone https://github.com/YuriPereira20/whatsapp-mcp-claude.git
 cd whatsapp-mcp-claude
 npm install
 npm run build
