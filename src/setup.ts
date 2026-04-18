@@ -20,7 +20,9 @@ interface GroupInfo {
 
 async function connectAndReady(): Promise<WASocket> {
   const authDir = join(ROOT, "data", "auth");
+  console.log(`[setup] auth dir: ${authDir}`);
   const { state, saveCreds } = await useMultiFileAuthState(authDir);
+  console.log("[setup] auth state carregado. Conectando ao WhatsApp...");
   const sock = makeWASocket({
     auth: state,
     printQRInTerminal: false,
@@ -30,6 +32,14 @@ async function connectAndReady(): Promise<WASocket> {
 
   await new Promise<void>((resolve, reject) => {
     sock.ev.on("connection.update", (u) => {
+      const summary = {
+        connection: u.connection,
+        hasQr: !!u.qr,
+        isNewLogin: u.isNewLogin,
+        receivedPendingNotifications: u.receivedPendingNotifications,
+        lastDisconnectStatus: (u.lastDisconnect?.error as any)?.output?.statusCode,
+      };
+      console.log("[setup] connection.update:", JSON.stringify(summary));
       if (u.qr) {
         console.log("\nEscaneie o QR abaixo com o WhatsApp do chip dedicado:\n");
         qrcode.generate(u.qr, { small: true });
@@ -37,7 +47,11 @@ async function connectAndReady(): Promise<WASocket> {
       if (u.connection === "open") resolve();
       if (u.connection === "close") {
         const code = (u.lastDisconnect?.error as any)?.output?.statusCode;
-        if (code === 401) reject(new Error("autenticação falhou"));
+        if (code === 401) {
+          reject(new Error("autenticação falhou (401 — sessão inválida)"));
+        } else {
+          reject(new Error(`conexão fechou com código ${code ?? "desconhecido"}`));
+        }
       }
     });
   });
