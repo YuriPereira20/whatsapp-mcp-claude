@@ -3,6 +3,8 @@ import qrcode from "qrcode-terminal";
 import { createInterface } from "node:readline/promises";
 import makeWASocket, {
   useMultiFileAuthState,
+  fetchLatestBaileysVersion,
+  Browsers,
   type WASocket,
 } from "@whiskeysockets/baileys";
 import { join } from "node:path";
@@ -22,11 +24,14 @@ async function connectAndReady(): Promise<WASocket> {
   const authDir = join(ROOT, "data", "auth");
   console.log(`[setup] auth dir: ${authDir}`);
   const { state, saveCreds } = await useMultiFileAuthState(authDir);
-  console.log("[setup] auth state carregado. Conectando ao WhatsApp...");
+  const { version, isLatest } = await fetchLatestBaileysVersion();
+  console.log(`[setup] auth state carregado. WA version ${version.join(".")} (latest=${isLatest}). Conectando...`);
   const sock = makeWASocket({
+    version,
     auth: state,
     printQRInTerminal: false,
     logger: silentLogger(),
+    browser: Browsers.ubuntu("Chrome"),
   });
   sock.ev.on("creds.update", saveCreds);
 

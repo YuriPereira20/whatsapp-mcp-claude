@@ -1,4 +1,4 @@
-import makeWASocket, { DisconnectReason, useMultiFileAuthState, } from "@whiskeysockets/baileys";
+import makeWASocket, { DisconnectReason, useMultiFileAuthState, fetchLatestBaileysVersion, Browsers, } from "@whiskeysockets/baileys";
 import { join } from "node:path";
 import { silentLogger } from "./silent-logger.js";
 export class BaileysClient {
@@ -19,10 +19,13 @@ export class BaileysClient {
     async _connect() {
         const authDir = join(this.opts.rootDir, "data", "auth");
         const { state, saveCreds } = await useMultiFileAuthState(authDir);
+        const { version } = await fetchLatestBaileysVersion();
         this.sock = makeWASocket({
+            version,
             auth: state,
             printQRInTerminal: false,
             logger: silentLogger(),
+            browser: Browsers.ubuntu("Chrome"),
         });
         this.sock.ev.on("creds.update", saveCreds);
         this.sock.ev.on("messages.upsert", ({ messages, type }) => {

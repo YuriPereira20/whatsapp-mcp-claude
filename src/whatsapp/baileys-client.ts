@@ -1,6 +1,8 @@
 import makeWASocket, {
   DisconnectReason,
   useMultiFileAuthState,
+  fetchLatestBaileysVersion,
+  Browsers,
   type WASocket,
   type proto,
 } from "@whiskeysockets/baileys";
@@ -38,11 +40,14 @@ export class BaileysClient implements WhatsAppClient {
   private async _connect(): Promise<void> {
     const authDir = join(this.opts.rootDir, "data", "auth");
     const { state, saveCreds } = await useMultiFileAuthState(authDir);
+    const { version } = await fetchLatestBaileysVersion();
 
     this.sock = makeWASocket({
+      version,
       auth: state,
       printQRInTerminal: false,
       logger: silentLogger(),
+      browser: Browsers.ubuntu("Chrome"),
     });
 
     this.sock.ev.on("creds.update", saveCreds);
