@@ -20,8 +20,11 @@ Este projeto usa [Baileys](https://github.com/WhiskeySockets/Baileys), bibliotec
 ## Setup
 
 ```bash
-# 1. Instalar global (puxa do GitHub, compila via 'prepare')
-npm install -g github:YuriPereira20/whatsapp-mcp-claude
+# 1. Clonar e instalar
+git clone https://github.com/YuriPereira20/whatsapp-mcp-claude.git ~/.local/share/whatsapp-mcp-claude
+cd ~/.local/share/whatsapp-mcp-claude
+npm install
+npm link   # expõe 'whatsapp-mcp' e 'whatsapp-mcp-setup' no PATH global
 
 # 2. Rodar o wizard (uma vez)
 whatsapp-mcp-setup
@@ -51,19 +54,9 @@ Adicione em `~/.claude/settings.json` (global) ou `.mcp.json` do projeto:
 
 Sem cwd, sem caminho absoluto — o binário fica no PATH depois do `npm install -g`.
 
-## Instalação alternativa (dev local do repo)
+## Instalação alternativa (sem link global)
 
-Se quiser rodar direto da source (sem global install):
-
-```bash
-git clone https://github.com/YuriPereira20/whatsapp-mcp-claude.git
-cd whatsapp-mcp-claude
-npm install
-npm run build
-npm run setup     # wizard com state em ~/.whatsapp-mcp/
-```
-
-No Claude Code:
+Se preferir sem `npm link`, aponte o Claude Code pro binário absoluto:
 
 ```json
 {
@@ -75,6 +68,8 @@ No Claude Code:
   }
 }
 ```
+
+E rode setup como `node <CAMINHO-ABSOLUTO>/dist/setup.js`.
 
 ## Uso
 
