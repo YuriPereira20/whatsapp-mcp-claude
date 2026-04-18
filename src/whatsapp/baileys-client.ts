@@ -13,6 +13,7 @@ import type {
   SendResult,
 } from "./client.js";
 import type { IncomingMessage } from "./matcher.js";
+import { silentLogger } from "./silent-logger.js";
 
 export interface BaileysClientOptions {
   rootDir: string;
@@ -41,7 +42,7 @@ export class BaileysClient implements WhatsAppClient {
     this.sock = makeWASocket({
       auth: state,
       printQRInTerminal: false,
-      logger: { level: "silent" } as any,
+      logger: silentLogger(),
     });
 
     this.sock.ev.on("creds.update", saveCreds);

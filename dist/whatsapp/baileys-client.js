@@ -1,5 +1,6 @@
 import makeWASocket, { DisconnectReason, useMultiFileAuthState, } from "@whiskeysockets/baileys";
 import { join } from "node:path";
+import { silentLogger } from "./silent-logger.js";
 export class BaileysClient {
     opts;
     sock;
@@ -21,7 +22,7 @@ export class BaileysClient {
         this.sock = makeWASocket({
             auth: state,
             printQRInTerminal: false,
-            logger: { level: "silent" },
+            logger: silentLogger(),
         });
         this.sock.ev.on("creds.update", saveCreds);
         this.sock.ev.on("messages.upsert", ({ messages, type }) => {
