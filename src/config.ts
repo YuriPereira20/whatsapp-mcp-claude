@@ -26,7 +26,7 @@ export function loadConfig(rootDir: string): Config {
   const path = configPath(rootDir);
   if (!existsSync(path)) {
     throw new ConfigError(
-      `Config não encontrado em ${path}. Rode 'npm run setup' primeiro.`,
+      `Config não encontrado em ${path}. Rode 'whatsapp-mcp-setup' primeiro.`,
     );
   }
   let raw: unknown;
